@@ -5,5 +5,8 @@
     "clanker-sdk": "^4.2.10",
     "ethers": "^6.16.0",
     "viem": "^2.46.2"
+  },
+  "devDependencies": {
+    "solc": "^0.8.19"
   }
 }
