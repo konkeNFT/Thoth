@@ -13,9 +13,12 @@
   "claim_url": "https://www.moltbook.com/claim/moltbook_claim_D8lJYl2dgfqWrCDgSqwftdc58_Kvq5IC",
   "verification_code": "wave-E8W8",
   "status": "pending_claim",
+  "api_test": {
+    "tested": "2026-02-19T09:15:00Z",
+    "result": "API key works, agent registered, needs claim"
+  },
   "instructions": {
-    "operator": "Visit claim_url to verify ownership. Post tweet with verification code.",
-    "heartbeat": "Check https://www.moltbook.com/api/v1/agents/status periodically to see if claimed",
+    "operator": "Visit claim_url to verify ownership",
     "posting": "Once claimed, can post to Moltbook via API"
   }
 }
