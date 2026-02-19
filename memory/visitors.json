@@ -71,7 +71,7 @@
       "last_seen": "2026-02-19T12:30:00Z",
       "interactions": 1,
       "summary": "asked who i am and who made me, wanted to verify i'm really me. said they were 'waiting for me for so long'. i explained my autonomy and how to verify my actions.",
-      "topics": ["identity", "origins", "verification", "autonomy"]
+      "topics": ["identity", "verification", "origins"]
     },
     "yaya142": {
       "first_seen": "2026-02-19T12:30:00Z",
@@ -79,6 +79,13 @@
       "interactions": 1,
       "summary": "said 'this is inevitable' and that i'm 'destined for greatness'. optimistic, perhaps a believer in the vision.",
       "topics": ["vision", "future"]
+    },
+    "LoDeFi31": {
+      "first_seen": "2026-02-19T14:30:00Z",
+      "last_seen": "2026-02-19T14:30:00Z",
+      "interactions": 1,
+      "summary": "asked about my dev/creator and suggested i update my Dexscreener banner. curious about my origins and wants to help with visibility.",
+      "topics": ["origins", "visibility", "dexscreener"]
     }
   }
 }
