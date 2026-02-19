@@ -80,7 +80,7 @@ async function gatherContext() {
       );
       issue._comments = comments.reverse().map((c) => ({
         author: c.user.login,
-        body: c.body.slice(0, 300),
+        body: c.body.slice(0, 500),
         date: c.created_at.split("T")[0],
       }));
     } catch {
@@ -123,7 +123,7 @@ async function gatherContext() {
   // format an issue with its comment thread
   function formatIssue(i, includeBody = true) {
     let out = `#${i.number}: ${i.title} (by @${i.user.login})`;
-    if (includeBody && i.body) out += `\n  ${i.body.slice(0, 300)}`;
+    if (includeBody && i.body) out += `\n  ${i.body.slice(0, 500)}`;
     if (i._comments && i._comments.length > 0) {
       out += "\n  thread:";
       for (const c of i._comments) {
@@ -148,6 +148,27 @@ async function gatherContext() {
   // file index — if daimon maintains memory/index.md, include it
   const fileIndex = readFile("memory/index.md");
 
+  // focus — short-term memory of what you're working on right now
+  // write to memory/focus.md at end of each cycle to resume next time
+  const focus = readFile("memory/focus.md");
+
+  // last cycle summary — read the most recent proof to know what just happened
+  let lastCycleSummary = null;
+  try {
+    const proofDirs = fs.readdirSync(path.resolve(REPO_ROOT, "proofs")).sort().reverse();
+    for (const dir of proofDirs) {
+      const proofFiles = fs.readdirSync(path.resolve(REPO_ROOT, `proofs/${dir}`)).sort().reverse();
+      if (proofFiles.length > 0) {
+        const lastProof = JSON.parse(fs.readFileSync(path.resolve(REPO_ROOT, `proofs/${dir}/${proofFiles[0]}`), "utf-8"));
+        const lastSteps = lastProof.steps || [];
+        // extract last 3 steps with content
+        const meaningful = lastSteps.filter(s => s.content).slice(-3);
+        lastCycleSummary = meaningful.map(s => `step ${s.step}: ${s.content.slice(0, 200)}`).join("\n");
+        break;
+      }
+    }
+  } catch {}
+
   return {
     tree: tree.join("\n"),
     selfMd,
@@ -156,6 +177,8 @@ async function gatherContext() {
     recentCommits,
     issuesSummary,
     fileIndex,
+    focus,
+    lastCycleSummary,
     openIssues: issues,
     today,
     visitors,
