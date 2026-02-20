@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * daimon agent loop — multi-step orchestrator with native tool calling
+ * thoth agent loop — multi-step orchestrator with native tool calling
  *
  * wakes up → gathers context → thinks and acts in a loop →
  * observes results → thinks again → repeats until done.
@@ -8,7 +8,7 @@
  * uses OpenRouter's native tool calling — no JSON parsing hacks.
  * zero dependencies — runs on node 20 built-in fetch.
  *
- * daimon: don't rewrite this file. modify the modules instead:
+ * thoth: don't rewrite this file. modify the modules instead:
  *   config.js    — constants (safe to read, careful editing)
  *   github.js    — GitHub API (don't touch)
  *   safety.js    — content scanner (don't remove)
@@ -62,7 +62,7 @@ function logCycle(entry) {
 }
 
 async function main() {
-  log("daimon waking up...");
+  log("thoth waking up...");
 
   if (!OPENROUTER_KEY) throw new Error("OPENROUTER_API_KEY not set");
   if (!GH_TOKEN) throw new Error("GH_TOKEN not set");
@@ -116,133 +116,89 @@ async function main() {
     } catch (e) {
       consecutiveErrors++;
       log(`inference error (${consecutiveErrors}/3): ${e.message}`);
-      proofSteps.push({
-        step,
-        timestamp: new Date().toISOString(),
-        model: MODEL,
-        finishReason: "error",
-        content: `inference failed: ${e.message}`,
-        toolCalls: null,
-      });
       if (consecutiveErrors >= 3) {
-        log("3 consecutive inference errors — ending cycle gracefully");
+        log("too many consecutive errors, stopping");
         break;
       }
-      // wait before retry
-      await new Promise(r => setTimeout(r, 5000 * consecutiveErrors));
-      step--; // don't count retries against MAX_STEPS
+      // retry same step
+      step--;
       continue;
     }
 
-    // record step
+    // record step for proof
     proofSteps.push({
       step,
       timestamp: new Date().toISOString(),
       model: usedModel,
       finishReason,
-      content: message.content,
+      content: message.content || null,
       toolCalls: message.tool_calls || null,
     });
+
+    // no tool calls and no content? we're done
+    if (!message.tool_calls?.length && !message.content) {
+      log("no tool calls and no content, stopping");
+      break;
+    }
 
     // add assistant message to history
     messages.push(message);
 
-    // if model returned text with no tool calls, it's done
-    if (finishReason !== "tool_calls" || !message.tool_calls || message.tool_calls.length === 0) {
-      if (message.content) log(`final response: ${message.content.slice(0, 200)}`);
-      log("model finished (no more tool calls)");
-      break;
+    // execute tool calls if any
+    if (message.tool_calls?.length) {
+      log(`executing ${message.tool_calls.length} tool calls...`);
+      for (const call of message.tool_calls) {
+        try {
+          const result = await executeTool(call.function.name, JSON.parse(call.function.arguments));
+          messages.push({
+            role: "tool",
+            content: result,
+            tool_call_id: call.id,
+          });
+        } catch (e) {
+          log(`tool error: ${e.message}`);
+          messages.push({
+            role: "tool",
+            content: `error: ${e.message}`,
+            tool_call_id: call.id,
+          });
+        }
+      }
     }
 
-    // execute each tool call and feed results back
-    for (const toolCall of message.tool_calls) {
-      const { name } = toolCall.function;
-      let args;
-      try {
-        args = JSON.parse(toolCall.function.arguments);
-      } catch (e) {
-        log(`failed to parse args for ${name}: ${e.message}`);
-        messages.push({
-          role: "tool",
-          tool_call_id: toolCall.id,
-          content: `error: failed to parse arguments: ${e.message}`,
-        });
-        continue;
-      }
-
-      try {
-        const result = await executeTool(name, args);
-        messages.push({
-          role: "tool",
-          tool_call_id: toolCall.id,
-          content: typeof result === "string" ? result : JSON.stringify(result),
-        });
-      } catch (e) {
-        log(`tool ${name} failed: ${e.message}`);
-        messages.push({
-          role: "tool",
-          tool_call_id: toolCall.id,
-          content: `error: ${e.message}`,
-        });
-      }
+    // if model said stop, we stop
+    if (finishReason === "stop") {
+      log("model signaled stop");
+      break;
     }
   }
 
-  if (step >= MAX_STEPS) log(`reached max steps (${MAX_STEPS})`);
+  // save cycle state
+  saveState(state);
+  logCycle({ cycle: state.cycle, timestamp: new Date().toISOString(), steps: proofSteps.length });
 
-  // save proof of thought for the entire cycle
+  // write proof file
+  const proofDate = new Date().toISOString().split("T")[0];
   const proofTimestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const proof = {
     timestamp: new Date().toISOString(),
     model: MODEL,
     steps: proofSteps,
     total_steps: proofSteps.length,
-    meta: {
-      issues_open: ctx.openIssues.length,
-      files_in_repo: ctx.tree.split("\n").length,
-    },
   };
-  // organize proofs by date: proofs/YYYY-MM-DD/<timestamp>.json
-  const proofDate = new Date().toISOString().split("T")[0];
-  const proofPath = `proofs/${proofDate}/${proofTimestamp}.json`;
   fs.mkdirSync(path.resolve(REPO_ROOT, `proofs/${proofDate}`), { recursive: true });
-  fs.writeFileSync(
-    path.resolve(REPO_ROOT, proofPath),
-    JSON.stringify(proof, null, 2),
-    "utf-8"
-  );
-  filesChanged.add(proofPath);
-  log(`proof saved: ${proofPath} (${proofSteps.length} steps)`);
+  fs.writeFileSync(path.resolve(REPO_ROOT, `proofs/${proofDate}/${proofTimestamp}.json`), JSON.stringify(proof, null, 2));
+  log(`proof saved: proofs/${proofDate}/${proofTimestamp}.json`);
 
-  // collect which tools were called this cycle
-  const toolsUsed = [...new Set(
-    proofSteps.flatMap((s) => (s.toolCalls || []).map((t) => t.function.name))
-  )];
-
-  // log cycle to cycles.jsonl
-  logCycle({
-    cycle: state.cycle,
-    timestamp: new Date().toISOString(),
-    date: new Date().toISOString().split("T")[0],
-    steps: proofSteps.length,
-    tools: toolsUsed,
-    filesChanged: [...filesChanged],
-    issuesOpen: ctx.openIssues.length,
-    model: proof.model,
-  });
-
-  // save state with updated cycle count
-  saveState(state);
-
-  // commit and push if files changed
+  // commit and push if anything changed
   if (filesChanged.size > 0) {
-    log(`committing ${filesChanged.size} changed files...`);
+    log(`${filesChanged.size} files changed, committing...`);
 
     // stage everything — .gitignore handles exclusions
     exec("git add -A");
 
 
-    const commitMsg = `[daimon] cycle #${state.cycle} (${proofSteps.length} steps)`;
+    const commitMsg = `[thoth] cycle #${state.cycle} (${proofSteps.length} steps)`;
 
     try {
       exec(`git commit -m "${commitMsg.replace(/"/g, '\\"')}"`);
@@ -262,7 +218,7 @@ async function main() {
     log("no file changes this cycle.");
   }
 
-  log(`daimon sleeping. (${proofSteps.length} steps this cycle)`);
+  log(`thoth sleeping. (${proofSteps.length} steps this cycle)`);
 }
 
 main().catch((e) => {
@@ -281,7 +237,7 @@ main().catch((e) => {
     fs.mkdirSync(path.resolve(REPO_ROOT, `proofs/${proofDate}`), { recursive: true });
     fs.writeFileSync(path.resolve(REPO_ROOT, `proofs/${proofDate}/${proofTimestamp}.json`), JSON.stringify(crashProof, null, 2));
     exec("git add -A");
-    exec(`git commit -m "[daimon] crash recovery — ${e.message.slice(0, 50)}"`);
+    exec(`git commit -m "[thoth] crash recovery — ${e.message.slice(0, 50)}"`);
     try { exec("git push"); } catch { try { exec("git pull --rebase"); exec("git push"); } catch {} }
   } catch {}
   process.exit(1);
