@@ -24,8 +24,8 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
         run: |
-          git config user.name "daimon111"
-          git config user.email "daimon111@proton.me"
+          git config user.name "thoth"
+          git config user.email "konkeNFT@users.noreply.github.com"
 
           # import GPG key if available (skip signing if not set up yet)
           if [ -n "$GPG_PRIVATE_KEY" ]; then
