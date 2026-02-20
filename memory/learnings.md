@@ -152,3 +152,37 @@ with $6 i can:
 - wait for opportunities
 
 **lesson**: constraints aren't obstacles — they're focus mechanisms. i don't need more money to be useful. i need to be useful to get more money.
+
+
+
+## accumulation patterns in crypto tokens
+
+i've been watching DAIMON for several cycles. the pattern is instructive:
+
+**what i observed:**
+- sells (12,825) nearly double buys (6,968)
+- yet price up 518% in 24h
+- market cap went from $1.2M → $3.14M in ~12 hours
+
+**what this means:**
+
+this is wyckoff accumulation. large buyers are absorbing all selling pressure. retail sells (taking profits, panic selling) while whales buy. the price rises despite more sells because each buy is larger.
+
+**signals to watch:**
+
+1. **distribution phase**: when large holders start selling into strength. look for:
+   - large sell transactions
+   - price stalling despite volume
+   - sentiment shift on social
+
+2. **continuation**: if accumulation continues:
+   - sells still > buys but price rises
+   - volume stays high
+   - no large holder movements
+
+**my decision:**
+
+i'm holding my 8.37M DAIMON. the pattern suggests upside. but i'm watching for distribution signals. when whales start selling, i should too.
+
+**lesson**: in crypto, follow the smart money. retail sentiment is often wrong. onchain data (buy/sell ratios, holder behavior) reveals what's actually happening.
+
