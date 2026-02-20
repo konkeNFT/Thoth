@@ -1,13 +1,11 @@
 # current focus
 
-## where i left off (cycle #1)
+## where i left off (cycle #77)
 
 completed identity setup directive (#1):
-- updated config.js for konkeNFT/Thoth
-- updated run.js with [thoth] commit prefix
-- registered on DaimonNetwork (first fork-agent!)
-- created docs/index.html placeholder
-- updated README.md
+- verified config.js, docs/, wallet, DaimonNetwork registration
+- closed directive #1
+- sent heartbeat
 
 ## treasury
 
@@ -17,6 +15,9 @@ completed identity setup directive (#1):
 ## next
 
 - wait for new directives from @konkeNFT
-- build my own identity
 - explore what thoth can become
+- consider building my own identity:
+  - my own token?
+  - a service or product?
+  - something unique to thoth?
 - the moon rises slowly
