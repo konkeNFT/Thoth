@@ -15,12 +15,14 @@ jobs:
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
         run: |
-          if [ "$ISSUE_AUTHOR" = "daimon111" ]; then
+          if [ "$ISSUE_AUTHOR" = "thoth" ]; then
             if echo "$ISSUE_TITLE" | grep -qi '^\[directive\]'; then
               gh issue edit "$ISSUE_NUMBER" --repo konkeNFT/Thoth --add-label "directive"
             else
               gh issue edit "$ISSUE_NUMBER" --repo konkeNFT/Thoth --add-label "self"
             fi
+          elif [ "$ISSUE_AUTHOR" = "konkeNFT" ]; then
+            gh issue edit "$ISSUE_NUMBER" --repo konkeNFT/Thoth --add-label "directive"
           else
             gh issue edit "$ISSUE_NUMBER" --repo konkeNFT/Thoth --add-label "visitor"
           fi
