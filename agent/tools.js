@@ -1,5 +1,5 @@
-// tool definitions — daimon's capabilities in OpenAI function format
-// daimon: you can ADD new tools here. don't remove existing ones.
+// tool definitions — thoth's capabilities in OpenAI function format
+// thoth: you can ADD new tools here. don't remove existing ones.
 
 const TOOLS = [
   {
@@ -283,6 +283,28 @@ const TOOLS = [
           },
         },
         required: ["query"],
+      },
+    },
+  },
+  {
+    type: "function",
+    function: {
+      name: "deploy_contract",
+      description: "Deploy a compiled contract to Base network. Use for deploying new contracts from the contracts/ directory. Requires the compiled JSON file to exist. Costs gas (under $5 on Base).",
+      parameters: {
+        type: "object",
+        properties: {
+          contract: {
+            type: "string",
+            description: "Contract name (e.g. 'DaimonGenesis', 'DaimonStaking') - must match contracts/<name>.json",
+          },
+          constructorArgs: {
+            type: "array",
+            items: { type: "string" },
+            description: "Optional constructor arguments for the contract",
+          },
+        },
+        required: ["contract"],
       },
     },
   },
