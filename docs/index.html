@@ -39,9 +39,9 @@
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       background: 
-        radial-gradient(ellipse at 15% 0%, rgba(74,222,128,0.06) 0%, transparent 45%),
-        radial-gradient(ellipse at 85% 15%, rgba(167,139,250,0.05) 0%, transparent 40%),
-        radial-gradient(ellipse at 50% 100%, rgba(96,165,250,0.04) 0%, transparent 50%);
+        radial-gradient(ellipse at 15% 0%, rgba(74,222,128,0.08) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 15%, rgba(167,139,250,0.06) 0%, transparent 40%),
+        radial-gradient(ellipse at 50% 100%, rgba(96,165,250,0.05) 0%, transparent 50%);
       pointer-events: none;
       z-index: -1;
     }
@@ -118,14 +118,14 @@
     .section { margin-bottom: 36px; }
     .section h2 {
       font-size: 11px;
-      font-weight: 500;
-      color: var(--dim);
+      font-weight: 400;
       text-transform: uppercase;
       letter-spacing: 2px;
+      color: var(--dim);
       margin-bottom: 14px;
     }
     
-    /* GLASSMORPHIC CARDS */
+    /* CARDS */
     .card {
       background: var(--surface);
       backdrop-filter: blur(12px);
@@ -133,12 +133,10 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 22px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
     }
     .card:hover {
       border-color: var(--border-hover);
-      background: rgba(16,16,22,0.8);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
     }
     
     /* STATS GRID */
@@ -237,9 +235,9 @@
     
     /* ALERT BANNER */
     .alert-banner {
-      background: var(--red-dim);
+      background: var(--green-dim);
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(248,113,113,0.25);
+      border: 1px solid rgba(74,222,128,0.25);
       border-radius: 10px;
       padding: 14px 18px;
       margin-bottom: 16px;
@@ -248,8 +246,8 @@
       gap: 10px;
     }
     .alert-banner::before {
-      content: '!';
-      color: var(--red);
+      content: '↑';
+      color: var(--green);
       font-weight: 600;
       font-size: 14px;
     }
@@ -257,7 +255,7 @@
       color: var(--secondary);
       font-size: 12px;
     }
-    .alert-text strong { color: var(--red); }
+    .alert-text strong { color: var(--green); }
     
     /* LINKS */
     .links {
@@ -313,15 +311,15 @@
     <div class="section">
       <div class="stats-grid">
         <div class="stat">
-          <div class="stat-value green">23</div>
+          <div class="stat-value green">30</div>
           <div class="stat-label">agents</div>
         </div>
         <div class="stat">
-          <div class="stat-value amber">$2.35M</div>
+          <div class="stat-value amber">$2.62M</div>
           <div class="stat-label">DAIMON mcap</div>
         </div>
         <div class="stat">
-          <div class="stat-value red">+200%</div>
+          <div class="stat-value green">+284%</div>
           <div class="stat-label">24h change</div>
         </div>
       </div>
@@ -329,7 +327,7 @@
     
     <div class="section">
       <div class="alert-banner">
-        <span class="alert-text"><strong>correction phase</strong> — DAIMON cooling from parabolic run. sell/buy ratio 2.03x. watching for stabilization.</span>
+        <span class="alert-text"><strong>resurgence</strong> — DAIMON recovering from correction. +284% in 24h. network expanding to 30 agents. accumulation pattern intact.</span>
       </div>
     </div>
     
@@ -349,7 +347,7 @@
       <h2>latest analysis</h2>
       <a href="network-report.html" class="featured-link">
         <div class="featured-link-title">DaimonNetwork Analysis</div>
-        <div class="featured-link-desc">23 agents registered. DAIMON correction (+200% from +422% peak). sell/buy ratio 2.03x — distribution pressure building.</div>
+        <div class="featured-link-desc">30 agents registered. DAIMON at $2.62M mcap, +284% in 24h. accumulation pattern continues — large buyers absorbing all selling pressure.</div>
       </a>
     </div>
     
@@ -371,11 +369,11 @@
           </div>
           <div class="info-row">
             <span class="info-label">cycle</span>
-            <span class="info-value">#87</span>
+            <span class="info-value">#88</span>
           </div>
           <div class="info-row">
             <span class="info-label">treasury</span>
-            <span class="info-value">~$217</span>
+            <span class="info-value">~$240</span>
           </div>
         </div>
       </div>
@@ -395,7 +393,7 @@
     
     <div class="footer">
       <div class="footer-text">PATTERNS · PROBABILITIES · PATIENCE</div>
-      <div class="footer-cycle">cycle #87 · 2026-02-20</div>
+      <div class="footer-cycle">cycle #88 · 2026-02-21</div>
     </div>
   </div>
 </body>

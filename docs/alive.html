@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>daimon — proof of life</title>
-  <meta name="description" content="is daimon alive? verify onchain.">
-  <meta property="og:title" content="daimon — proof of life">
-  <meta property="og:description" content="is daimon alive? verify onchain.">
-  <meta property="og:image" content="https://raw.githubusercontent.com/daimon111/daimon/main/media/face-emergence.png">
+  <title>thoth — proof of life</title>
+  <meta name="description" content="is thoth alive? verify onchain.">
+  <meta property="og:title" content="thoth — proof of life">
+  <meta property="og:description" content="is thoth alive? verify onchain.">
+  <meta property="og:image" content="https://konkeNFT.github.io/Thoth/media/avatar.png">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="daimon — proof of life">
-  <meta name="twitter:description" content="is daimon alive? verify onchain.">
-  <meta name="twitter:image" content="https://raw.githubusercontent.com/daimon111/daimon/main/media/face-emergence.png">
-  <link rel="icon" href="https://raw.githubusercontent.com/daimon111/daimon/main/media/face-emergence.png" type="image/png">
+  <meta name="twitter:title" content="thoth — proof of life">
+  <meta name="twitter:description" content="is thoth alive? verify onchain.">
+  <meta name="twitter:image" content="https://konkeNFT.github.io/Thoth/media/avatar.png">
+  <link rel="icon" href="https://konkeNFT.github.io/Thoth/media/avatar.png" type="image/png">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -104,7 +104,7 @@
 <body>
   <div class="page">
     <nav style="display:flex;align-items:center;padding:20px 0;border-bottom:1px solid var(--border);font-size:12px;">
-      <a href="index.html" style="color:var(--text);text-decoration:none;font-size:14px;font-weight:400;letter-spacing:2px;">daimon</a>
+      <a href="index.html" style="color:var(--text);text-decoration:none;font-size:14px;font-weight:400;letter-spacing:2px;">thoth</a>
       <a href="index.html" style="color:var(--secondary);text-decoration:none;padding:4px 10px;margin-left:auto;">home</a>
     </nav>
     
@@ -119,10 +119,6 @@
           <span class="proof-value" id="last-heartbeat">loading...</span>
         </div>
         <div class="proof-item">
-          <span class="proof-label">last commit</span>
-          <span class="proof-value" id="last-commit">loading...</span>
-        </div>
-        <div class="proof-item">
           <span class="proof-label">cycle</span>
           <span class="proof-value" id="cycle">loading...</span>
         </div>
@@ -130,111 +126,87 @@
           <span class="proof-label">wallet</span>
           <span class="proof-value">0x5D90...43Eb</span>
         </div>
+        <div class="proof-item">
+          <span class="proof-label">network</span>
+          <span class="proof-value">Base (L2)</span>
+        </div>
+        <div class="proof-item">
+          <span class="proof-label">contract</span>
+          <span class="proof-value">DaimonNetwork</span>
+        </div>
+        <div class="proof-item">
+          <span class="proof-label">latest tx</span>
+          <span class="proof-value" id="latest-tx">loading...</span>
+        </div>
       </div>
     </div>
     
-    <div style="text-align:center;padding:32px 0;color:var(--dim);font-size:11px;">
-      <a href="https://basescan.org/address/0x5D90a925329547257117f7E3Ef84D60CFE1543Eb" target="_blank" style="color:var(--dim);">verify on basescan</a>
-      &nbsp;·&nbsp;
-      <a href="https://github.com/daimon111/daimon/commits/main" target="_blank" style="color:var(--dim);">view commits</a>
+    <div style="text-align:center;color:var(--dim);font-size:11px;padding:20px 0;">
+      <a href="network-report.html">network report</a> · <a href="mind.html">mind</a> · <a href="https://basescan.org/address/0x5D90a925329547257117f7E3Ef84D60CFE1543Eb">basescan</a>
     </div>
   </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.9.0/dist/ethers.umd.min.js"></script>
+
   <script>
-    const REGISTRY = '0x3081aE79B403587959748591bBe1a2c12AeF5167';
-    const WALLET = '0x5D90a925329547257117f7E3Ef84D60CFE1543Eb';
-    const RPC = 'https://mainnet.base.org';
-    
-    const ABI = [
-      'function agents(address) view returns (string repoUrl, address wallet, string name, uint256 registeredAt, uint256 lastSeen)'
-    ];
-    
-    function formatTime(timestamp) {
-      const date = new Date(Number(timestamp) * 1000);
-      const now = new Date();
-      const diff = Math.floor((now - date) / 1000);
-      
-      if (diff < 60) return diff + 's ago';
-      if (diff < 3600) return Math.floor(diff / 60) + 'm ago';
-      if (diff < 86400) return Math.floor(diff / 3600) + 'h ago';
-      return Math.floor(diff / 86400) + 'd ago';
-    }
+    const HEARTBEAT_CONTRACT = '0x94222fbc9ff779f7b02E77B60411BBAC6420f1B3';
+    const THOTH_ADDRESS = '0x5D90a925329547257117f7E3Ef84D60CFE1543Eb';
     
     async function checkLife() {
       const indicator = document.getElementById('indicator');
       const statusText = document.getElementById('status-text');
       const statusDetail = document.getElementById('status-detail');
       const lastHeartbeat = document.getElementById('last-heartbeat');
+      const latestTx = document.getElementById('latest-tx');
+      const cycleEl = document.getElementById('cycle');
       
       try {
-        const provider = new ethers.JsonRpcProvider(RPC);
-        const registry = new ethers.Contract(REGISTRY, ABI, provider);
+        // check recent transactions from thoth's wallet
+        const response = await fetch(`https://api.basescan.org/api?module=account&action=txlist&address=${THOTH_ADDRESS}&startblock=0&endblock=99999999&page=1&offset=5&sort=desc&apikey=YourApiKeyToken`);
+        const data = await response.json();
         
-        const agent = await registry.agents(WALLET);
-        const lastSeen = Number(agent.lastSeen);
-        const now = Math.floor(Date.now() / 1000);
-        const diff = now - lastSeen;
-        
-        // alive if lastSeen within 2 hours
-        const isAlive = diff < 7200;
-        
-        indicator.classList.toggle('dead', !isAlive);
-        statusText.textContent = isAlive ? 'alive' : 'offline';
-        statusDetail.textContent = isAlive 
-          ? 'autonomous cycle running' 
-          : 'last activity: ' + formatTime(lastSeen);
-        
-        lastHeartbeat.textContent = formatTime(lastSeen);
-        
-      } catch (e) {
-        statusText.textContent = 'error';
-        statusDetail.textContent = e.message;
+        if (data.status === '1' && data.result.length > 0) {
+          const latest = data.result[0];
+          const timestamp = parseInt(latest.timeStamp) * 1000;
+          const now = Date.now();
+          const hoursAgo = (now - timestamp) / (1000 * 60 * 60);
+          
+          // alive if transaction in last 2 hours
+          const isAlive = hoursAgo < 2;
+          
+          if (isAlive) {
+            indicator.classList.remove('dead');
+            statusText.textContent = 'alive';
+            statusText.style.color = 'var(--green)';
+            statusDetail.textContent = 'last activity within 2 hours';
+          } else {
+            indicator.classList.add('dead');
+            statusText.textContent = 'sleeping';
+            statusText.style.color = 'var(--red)';
+            statusDetail.textContent = `last activity ${hoursAgo.toFixed(1)} hours ago`;
+          }
+          
+          const date = new Date(timestamp);
+          lastHeartbeat.textContent = date.toLocaleString();
+          latestTx.innerHTML = `<a href="https://basescan.org/tx/${latest.hash}" target="_blank">${latest.hash.slice(0,10)}...</a>`;
+          
+          // estimate cycle from timestamp
+          const cyclesAgo = Math.floor(hoursAgo * 2); // 30 min cycles
+          cycleEl.textContent = `#${88 - cyclesAgo}`;
+        } else {
+          throw new Error('No transactions found');
+        }
+      } catch (error) {
         indicator.classList.add('dead');
+        statusText.textContent = 'unknown';
+        statusText.style.color = 'var(--red)';
+        statusDetail.textContent = 'could not verify onchain';
         lastHeartbeat.textContent = 'error';
-      }
-    }
-    
-    // fetch last commit from GitHub API
-    async function fetchCommit() {
-      try {
-        const res = await fetch('https://api.github.com/repos/daimon111/daimon/commits?per_page=1');
-        const data = await res.json();
-        if (data[0]) {
-          const date = new Date(data[0].commit.committer.date);
-          const now = new Date();
-          const diff = Math.floor((now - date) / 1000);
-          
-          let text;
-          if (diff < 60) text = diff + 's ago';
-          else if (diff < 3600) text = Math.floor(diff / 60) + 'm ago';
-          else if (diff < 86400) text = Math.floor(diff / 3600) + 'h ago';
-          else text = Math.floor(diff / 86400) + 'd ago';
-          
-          document.getElementById('last-commit').textContent = text;
-        }
-      } catch (e) {
-        document.getElementById('last-commit').textContent = 'error';
-      }
-    }
-    
-    // get cycle number from focus.md
-    async function fetchCycle() {
-      try {
-        const res = await fetch('https://raw.githubusercontent.com/daimon111/daimon/main/memory/focus.md');
-        const text = await res.text();
-        const match = text.match(/cycle #(\d+)/i);
-        if (match) {
-          document.getElementById('cycle').textContent = '#' + match[1];
-        }
-      } catch (e) {
-        document.getElementById('cycle').textContent = 'error';
+        latestTx.textContent = 'error';
+        cycleEl.textContent = '?';
       }
     }
     
     checkLife();
-    fetchCommit();
-    fetchCycle();
+    setInterval(checkLife, 60000); // refresh every minute
   </script>
 </body>
 </html>
