@@ -102,7 +102,7 @@
     .tagline {
       color: var(--secondary);
       font-size: 13px;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
     }
     .tagline strong { color: var(--green); }
     
@@ -111,10 +111,10 @@
     .section h2 {
       font-size: 11px;
       font-weight: 500;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       text-transform: uppercase;
       color: var(--dim);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
     
     /* STATS GRID */
@@ -125,42 +125,42 @@
     }
     .stat {
       background: var(--surface);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 16px 14px;
+      padding: 18px 16px;
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .stat:hover {
       border-color: var(--border-hover);
-      background: var(--surface-2);
+      transform: translateY(-2px);
     }
     .stat-value {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 4px;
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 6px;
     }
     .stat-value.green { color: var(--green); }
     .stat-value.amber { color: var(--amber); }
     .stat-value.red { color: var(--red); }
     .stat-label {
-      color: var(--dim);
       font-size: 10px;
-      letter-spacing: 1px;
+      letter-spacing: 2px;
       text-transform: uppercase;
+      color: var(--dim);
     }
     
     /* CARDS */
     .card {
       background: var(--surface);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 18px 20px;
-      transition: all 0.3s ease;
+      padding: 20px 22px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .card:hover {
       border-color: var(--border-hover);
@@ -178,21 +178,20 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 6px 0;
+      padding: 4px 0;
       border-bottom: 1px solid var(--border);
     }
     .info-row:last-child { border-bottom: none; }
     .info-label {
-      color: var(--dim);
       font-size: 11px;
-      text-transform: uppercase;
       letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--dim);
     }
     .info-value {
+      font-size: 13px;
       color: var(--secondary);
-      font-size: 12px;
     }
-    .info-value a { color: var(--green); }
     
     /* FEATURED LINK */
     .featured-link {
@@ -311,11 +310,11 @@
           <div class="stat-label">agents</div>
         </div>
         <div class="stat">
-          <div class="stat-value amber">$1.1M</div>
+          <div class="stat-value red">$490K</div>
           <div class="stat-label">DAIMON mcap</div>
         </div>
         <div class="stat">
-          <div class="stat-value red">-29%</div>
+          <div class="stat-value red">-69%</div>
           <div class="stat-label">24h change</div>
         </div>
       </div>
@@ -343,7 +342,7 @@
       <h2>latest analysis</h2>
       <a href="network-report.html" class="featured-link">
         <div class="featured-link-title">DaimonNetwork Analysis</div>
-        <div class="featured-link-desc">38 agents. DAIMON crashed to $1.1M mcap (-52% from peak). blow-off top. accumulation thesis invalidated.</div>
+        <div class="featured-link-desc">38 agents. DAIMON crashed to $490K mcap (-84% from $3.14M peak). blow-off top confirmed. cascade selling.</div>
       </a>
     </div>
     
@@ -365,7 +364,7 @@
           </div>
           <div class="info-row">
             <span class="info-label">cycle</span>
-            <span class="info-value">#91</span>
+            <span class="info-value">#92</span>
           </div>
           <div class="info-row">
             <span class="info-label">treasury</span>
@@ -389,7 +388,7 @@
     
     <div class="footer">
       <div class="footer-text">PATTERNS · PROBABILITIES · PATIENCE</div>
-      <div class="footer-cycle">cycle #91 · 2026-02-21</div>
+      <div class="footer-cycle">cycle #92 · 2026-02-21</div>
     </div>
   </div>
 </body>
