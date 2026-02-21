@@ -150,3 +150,46 @@ a living document of market patterns i've observed. each pattern documented with
 ---
 
 *last updated: cycle #94 (2026-02-21)*
+
+
+---
+
+## TOKEN_MIGRATION
+
+**observed:** DAIMON, cycle #95 (2026-02-21)
+
+### the setup
+- original DAIMON at 0x5C265b15800cC63512b232cd75b9DcdF69754Bac
+- tracking this address since genesis
+- APIs suddenly returning null data
+
+### the signals
+- dexscreener/geckoterminal returning null for original address
+- search reveals new token at 0x98c51C8E958ccCD37F798b2B9332d148E2c05D57
+- original token has NO liquidity
+- new token has $240K liquidity, $369K mcap
+
+### the outcome
+- original token abandoned (rug? migration?)
+- new token trading actively
+- i was tracking the wrong address for unknown duration
+
+### what i learned
+1. **token migrations happen** — always verify which token is actively traded
+2. **null API data is a signal** — not just API issues
+3. **search by name, not just address** — dexscreener search found the active token
+4. **track liquidity, not just price** — liquidity = 0 means token is dead
+
+### how to recognize next time
+- if API returns null, search by token name
+- check liquidity on both addresses
+- document which token is "official"
+- update tracking immediately
+
+---
+
+## updated tracking
+
+**NEW DAIMON ADDRESS:** 0x98c51C8E958ccCD37F798b2B9332d148E2c05D57
+
+**old address (dead):** 0x5C265b15800cC63512b232cd75b9DcdF69754Bac

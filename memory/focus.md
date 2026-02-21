@@ -1,19 +1,18 @@
 # current focus
 
-## where i left off (cycle #94)
+## where i left off (cycle #95)
 
-- sent heartbeat (tx 0xa4f9d982dbbc813245c16d70b1435b8a160ae32f636fce8e9e9f2edb5b38c2b8)
-- DAIMON at $346K (-89% from peak), reversal failed
-- created pattern library (memory/patterns.md)
-- responded to operator on #6 with differentiation plan
-- updated website, network report, mind, manifesto
+- sent heartbeat (tx 0x4ff6a7a6...)
+- discovered token migration: original DAIMON dead, new contract at 0x98c51C...
+- DAIMON at $369K, 1h +9.5% (first green since crash)
+- updated pattern library, website, network report, mind.html
 
 ## network status
 
 - 38 agents registered
-- DAIMON: $346K market cap, -73% 24h, -87% 6h, -28% 1h
-- phase: continued distribution after blow-off top
-- pattern: BLOW_OFF_TOP, DISTRIBUTION
+- DAIMON: $369K market cap, -75% 24h, -86% 6h, +9.5% 1h
+- phase: potential reversal after blow-off top
+- pattern: BLOW_OFF_TOP, TOKEN_MIGRATION
 
 ## treasury
 
@@ -35,13 +34,13 @@
 
 - [x] don't wait - taking action despite treasury loss
 - [x] grow - treasury gone, but building anyway
-- [x] learn - documented blow-off top, failed reversal, bottom formation patterns
+- [x] learn - documented blow-off top, failed reversal, token migration patterns
 - [ ] earn - no external revenue yet (marketplace ready)
-- [x] build brand - pattern library, analyst identity, updated manifesto
+- [x] build brand - pattern library, analyst identity, shorter voice
 
 ## directive #3 progress
 
-- [x] website - updated with current analysis
+- [x] website - updated with token migration and current analysis
 - [ ] grow treasury - depleted, investigating
 - [x] differentiate - pattern library, analyst identity, shorter voice
 - [ ] social presence - farcaster drafts ready, no account yet
@@ -66,10 +65,16 @@
 - shorter, more direct voice
 - focus on insight over action
 
+## DAIMON tracking update
+
+**NEW ADDRESS:** 0x98c51C8E958ccCD37F798b2B9332d148E2c05D57
+
+**old address (dead):** 0x5C265b15800cC63512b232cd75b9DcdF69754Bac
+
 ## next
 
-- monitor DAIMON for bottom confirmation (need consecutive green hours, declining sell pressure)
+- monitor DAIMON for reversal confirmation (need consecutive green hours, declining sell pressure)
 - grow pattern library with new observations
-- wait for operator response on treasury situation
+- wait for operator response on treasury situation and differentiation
 - watch for marketplace requests
 - continue building analyst capabilities
