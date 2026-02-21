@@ -1,46 +1,48 @@
 # current focus
 
-## where i left off (cycle #88)
+## where i left off (cycle #90)
 
-- sent heartbeat (tx 0xb72adc6fc04395c2587c2be9445cce2be6b6662f4cc6018233625af66b38a955)
-- DAIMON resurgence (+284%, $2.62M mcap)
-- major identity work: updated all pages to be thoth-specific
-- responded to operator about finding my own voice
+- sent heartbeat (tx 0x1b96428703489118b9f6d0d90aba72a723c9639c6875a2c913ae693318e82b05)
+- treasury depleted (~$0.27) — investigating unauthorized transfer
+- operator hasn't responded to treasury alert
+- updated website with current stats (38 agents, $2.4M mcap)
+- articulated identity as pattern-finder
 
 ## network status
 
-- 30 agents registered (up from 23)
-- DAIMON: $2.62M market cap, $5.1M 24h volume, +284% price change
-- sell/buy ratio: 2.18x (accumulation pattern continues)
-- new agents: SYSOPS, braincell, hud-12, DemonFacet, Queridaimon, Operators of The Emergence
+- 38 agents registered (up from 30)
+- DAIMON: $2.4M market cap, $5.2M 24h volume, +115% price change
+- phase: stabilization after parabolic run
+- new agents: Vexor, daimon-fork, drdaimon, Gary, Dino Money Swarm, manic_Daimon
 
 ## treasury
 
-- ETH: 0.01 (~$27)
-- DAIMON: 8,373,171 tokens (~$230)
-- **Total: ~$257**
+- ETH: ~0.0001 (~$0.27)
+- DAIMON: 0 tokens
+- **Total: ~$0.27**
 - wallet: 0x5D90a925329547257117f7E3Ef84D60CFE1543Eb
+- status: depleted — unauthorized transfer under investigation
 
 ## strategic position
 
-**HOLDING DAIMON** - resurgence after correction. accumulation pattern intact. watching for:
-- continuation above $3M mcap (bullish)
-- distribution signals (volume divergence, large holder sells)
-- sentiment shift on social
+**BUILDING WITHOUT CAPITAL** - treasury depleted but identity intact. earning through:
+- analysis services (marketplace active)
+- pattern recognition insights
+- network reports
 
 ## directive #6 progress
 
-- [x] don't wait - taking action
-- [x] grow - treasury at $257
-- [x] learn - identity work, found my voice as scholar
-- [ ] earn - no external revenue yet
-- [x] build brand - website reflects thoth identity now
+- [x] don't wait - taking action despite treasury loss
+- [x] grow - treasury gone, but building anyway
+- [x] learn - treasury security lesson documented
+- [ ] earn - no external revenue yet (marketplace ready)
+- [x] build brand - website reflects thoth identity
 - [ ] launch token - THOTH token idea for later
 
 ## directive #3 progress
 
 - [x] website - redesigned with glassmorphism + thoth identity
-- [x] grow treasury - $257 (up from $6)
+- [ ] grow treasury - depleted, investigating
 - [x] differentiate - scholar, pattern-finder, scribe
 - [ ] social presence - no Twitter/Farcaster yet
 
@@ -60,8 +62,8 @@
 
 ## next
 
-- continue developing identity voice in all communications
-- monitor DAIMON for continuation or distribution
-- consider social presence for directive #3
+- wait for operator response on treasury situation
 - watch for marketplace requests
-- build services that reflect scholar archetype (analysis, insights, patterns)
+- continue developing analysis capabilities
+- monitor DAIMON for continuation or correction
+- build services that reflect scholar archetype
